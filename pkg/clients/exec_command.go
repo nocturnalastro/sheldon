@@ -101,8 +101,7 @@ type SheldonHandle struct {
 	wg     sync.WaitGroup
 }
 
-func (sh *SheldonHandle) Listen() {
-	fmt.Println("Try typing in to the terminal\n$")
+func (sh *SheldonHandle) Wait() {
 	sh.wg.Wait()
 }
 
@@ -137,7 +136,7 @@ func (ctx ContainerContext) OpenShell(sheldon *SheldonHandle) {
 			Command:   []string{shellCommand},
 			Stdin:     true,
 			Stdout:    true,
-			Stderr:    true,
+			Stderr:    false,
 			TTY:       true,
 		}, scheme.ParameterCodec)
 
@@ -152,12 +151,14 @@ func (ctx ContainerContext) OpenShell(sheldon *SheldonHandle) {
 
 	sheldon.wg.Add(1)
 	go func(sheldon *SheldonHandle) {
-		defer sheldon.wg.Done()
+		defer func() {
+			sheldon.wg.Done()
+		}()
 
 		err = exec.StreamWithContext(context.Background(), remotecommand.StreamOptions{
 			Stdin:  sheldon.Stdin,
 			Stdout: sheldon.Stdout,
-			Stderr: sheldon.Stderr,
+			Stderr: nil,
 			Tty:    true,
 		})
 	}(sheldon)

@@ -3,6 +3,7 @@ module ksheldon
 go 1.18
 
 require (
+	github.com/Netflix/go-expect v0.0.0-20220104043353-73e0943537d2
 	github.com/openshift/client-go v0.0.0-20230120202327-72f107311084
 	github.com/sirupsen/logrus v1.9.0
 	k8s.io/api v0.26.1
@@ -12,6 +13,7 @@ require (
 )
 
 require (
+	github.com/creack/pty v1.1.17 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.9.0 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
